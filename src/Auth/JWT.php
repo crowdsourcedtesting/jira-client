@@ -76,7 +76,7 @@ class JWT implements AuthInterface {
      * @param  string $qs
      * @return string
      */
-    public function normalizeQueryString($qs) {
+    protected function normalizeQueryString($qs) {
       if ('' == $qs) {
         return '';
       }
@@ -112,7 +112,7 @@ class JWT implements AuthInterface {
      * @param  string $url
      * @return string Hash
      */
-    public function canonicalizeUrl($url) {
+    protected function canonicalizeUrl($url) {
         $parsed = parse_url($url);
         $query = isset($parsed['query']) ? $this->normalizeQueryString($parsed['query']) : '';
         $canonicalRequest = "GET&{$parsed['path']}&{$query}";

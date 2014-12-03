@@ -21,7 +21,7 @@ abstract class AbstractClient
     protected $auth;
 
     /**
-     * @param string $domain Atlassian domain name ([domain].atlassian.net) || Jira installation URL
+     * @param string $domain Atlassian domain name ([domain].atlassian.net) || Jira instance URL
      * @param string $auth
      * @param string $password
      */
@@ -31,7 +31,14 @@ abstract class AbstractClient
             $domain =  sprintf('https://%s.atlassian.net/rest/api/latest/', $domain);
         }
         else {
-            $domain = "{$domain}/rest/api/latest/";
+            $urlParts = parse_url($domain);
+
+            $domain = implode('', [
+                $urlParts['scheme'],
+                '://',
+                $urlParts['host'],
+                '/rest/api/latest/'
+            ]);
         }
         $this->httpClient = new \GuzzleHttp\Client(['base_url' => $domain]);
         $this->auth = $authMethod;
@@ -62,17 +69,7 @@ abstract class AbstractClient
         ]);
 
         $request = $this->getAuth()->authorize( $request );
-        // try {
-            return $this->getHttp()->send($request);
-        // }
-        // catch (RequestException $e) {
-        //     echo $e->getRequest();
-        //     if ($e->hasResponse()) {
-        //         echo $e->getResponse();
-        //     }
-        //     die;
-        // }
-
+        return $this->getHttp()->send($request);
     }
 
     /**
