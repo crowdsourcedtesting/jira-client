@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "CST\\JiraClient\\": "src"
+            "CST\\Jira\\": "src"
         }
     }
 }
