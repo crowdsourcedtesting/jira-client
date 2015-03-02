@@ -3,10 +3,6 @@
 namespace CST\Jira\Client;
 
 use CST\Jira\Auth\AuthInterface;
-use GuzzleHttp\Client as GuzzleClient;
-
-use GuzzleHttp\Exception\RequestException;
-
 
 abstract class AbstractClient
 {
@@ -22,15 +18,13 @@ abstract class AbstractClient
 
     /**
      * @param string $domain Atlassian domain name ([domain].atlassian.net) || Jira instance URL
-     * @param string $auth
-     * @param string $password
+     * @param AuthInterface $authMethod
      */
     public function __construct($domain, AuthInterface $authMethod)
     {
-        if(!filter_var($domain, FILTER_VALIDATE_URL)) {
-            $domain =  sprintf('https://%s.atlassian.net/rest/api/latest/', $domain);
-        }
-        else {
+        if (!filter_var($domain, FILTER_VALIDATE_URL)) {
+            $domain = sprintf('https://%s.atlassian.net/rest/api/latest/', $domain);
+        } else {
             $urlParts = parse_url($domain);
 
             $domain = implode('', [
@@ -59,7 +53,7 @@ abstract class AbstractClient
 
     /**
      * @param  string $uri
-     * @param  string $query
+     * @param  array $query
      * @return \GuzzleHttp\Message\Response
      */
     public function get($uri, $query = [])
@@ -68,13 +62,13 @@ abstract class AbstractClient
             'query' => $query
         ]);
 
-        $request = $this->getAuth()->authorize( $request );
+        $request = $this->getAuth()->authorize($request);
         return $this->getHttp()->send($request);
     }
 
     /**
      * @param  string $uri
-     * @param  string $data
+     * @param  array $data
      *
      * @return \GuzzleHttp\Message\Response
      */
@@ -87,20 +81,20 @@ abstract class AbstractClient
 
     /**
      * @param  string $uri
-     * @param  resource $file
+     * @param  resource $fileHandle
      *
      * @return \GuzzleHttp\Message\Response
      */
-    public function postFile($uri, $file = null)
+    public function postFile($uri, $fileHandle = null)
     {
         return $this->getClient()->post($uri, [
             'headers' => ['X-Atlassian-Token' => 'no-check'],
-            'body' => ['file' => $file]
+            'body' => ['file' => $fileHandle]
         ]);
     }
 
     /**
-     * @param  string $uri
+     * @param string $uri
      * @param array $data
      *
      * @return \GuzzleHttp\Message\Response
@@ -123,7 +117,7 @@ abstract class AbstractClient
     }
 
     /**
-     * @param  array  $data
+     * @param  array $data
      *
      * @return array
      */
