@@ -44,7 +44,8 @@ class JWT implements AuthInterface {
             $this->secret,
             $this->expiration
         );
-        return $request->setHeader('Authorization', "JWT {$jwt}");
+        $request->setHeader('Authorization', "JWT {$jwt}");
+        return $request;
     }
 
     public function signUrl($url, $key, $secret, $license, $expiration = 900)

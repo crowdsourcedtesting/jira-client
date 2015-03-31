@@ -27,7 +27,8 @@ class Basic implements AuthInterface {
 
     public function authorize(GuzzleRequest $request) {
         $encoded = 'Basic ' . base64_encode( implode(':', [$this->username, $this->password]) );
-        return $request->addHeader('Authorization', $encoded);
+        $request->addHeader('Authorization', $encoded);
+        return $request;
     }
 
 }
