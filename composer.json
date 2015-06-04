@@ -9,7 +9,7 @@
     }
   ],
   "require": {
-    "guzzlehttp/guzzle": "5.0.*@dev",
+    "guzzlehttp/guzzle": "5.2.0",
     "firebase/php-jwt": "dev-master"
   },
   "autoload": {
