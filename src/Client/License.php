@@ -1,23 +1,24 @@
 <?php
+
 namespace CST\Jira\Client;
 
 use CST\Jira\Auth\AuthInterface;
-use GuzzleHttp\Client as GuzzleClient;
 
+use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
 
 class License extends AbstractClient {
 
     public function __construct($domain, AuthInterface $authMethod)
     {
-        if(!filter_var($domain, FILTER_VALIDATE_URL)) {
+        if (!filter_var($domain, FILTER_VALIDATE_URL)) {
             $domain =  sprintf('https://%s.atlassian.net/rest/atlassian-connect/latest/', $domain);
-        }
-        else {
+        } else {
             $domain = "{$domain}/rest/atlassian-connect/latest/";
         }
+
         $this->httpClient = new \GuzzleHttp\Client(['base_url' => $domain]);
-        $this->auth = $authMethod;
+        $this->auth       = $authMethod;
     }
 
     /**
