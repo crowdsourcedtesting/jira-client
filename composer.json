@@ -1,20 +1,20 @@
 {
-  "name": "cst/jira-client",
-  "description": "A Jira API client for PHP",
-  "keywords": ["jira", "jwt", "api"],
-  "authors": [
-    {
-      "name": "Carlos Yakimov",
-      "email": "carlos.yakimov@crowdsourcedtesting.com"
+    "name"       : "cst/jira-client",
+    "description": "A Jira API client for PHP",
+    "keywords"   : ["jira", "jwt", "api"],
+    "authors"    : [
+        {
+            "name" : "Carlos Yakimov",
+            "email": "carlos.yakimov@crowdsourcedtesting.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "~6.0",
+        "firebase/php-jwt" : "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "CST\\Jira\\": "src"
+        }
     }
-  ],
-  "require": {
-    "guzzlehttp/guzzle": "5.0.*@dev",
-    "firebase/php-jwt": "dev-master"
-  },
-  "autoload": {
-    "psr-4": {
-      "CST\\Jira\\": "src"
-    }
-  }
 }
