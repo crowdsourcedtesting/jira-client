@@ -1,4 +1,5 @@
 <?php
+
 namespace CST\Jira\Auth;
 
 use GuzzleHttp\Message\Request as GuzzleRequest;

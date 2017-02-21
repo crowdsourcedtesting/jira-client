@@ -1,4 +1,5 @@
 <?php
+
 namespace CST\Jira\Client;
 
 class Issue extends AbstractClient {
