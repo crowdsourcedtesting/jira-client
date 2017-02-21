@@ -34,8 +34,9 @@ abstract class AbstractClient
                 '/rest/api/latest/'
             ]);
         }
-        $this->httpClient = new \GuzzleHttp\Client(['base_url' => $domain]);
-        $this->auth = $authMethod;
+
+        $this->httpClient = new \GuzzleHttp\Client(['base_uri' => $domain]);
+        $this->auth       = $authMethod;
     }
 
     /**
@@ -74,9 +75,9 @@ abstract class AbstractClient
      */
     public function postRequest($uri, array $data = null)
     {
-        return $this->getClient()->post($uri, array(
+        return $this->getClient()->post($uri, [
             'json' => $this->createBody($data)
-        ));
+        ]);
     }
 
     /**
@@ -88,8 +89,11 @@ abstract class AbstractClient
     public function postFile($uri, $fileHandle = null)
     {
         return $this->getClient()->post($uri, [
-            'headers' => ['X-Atlassian-Token' => 'no-check'],
-            'body' => ['file' => $fileHandle]
+            'headers'   => ['X-Atlassian-Token' => 'no-check'],
+            'multipart' => [
+                'name'     => 'file',
+                'contents' => $fileHandle
+            ]
         ]);
     }
 
@@ -101,9 +105,9 @@ abstract class AbstractClient
      */
     public function putRequest($uri, array $data = null)
     {
-        return $this->getClient()->put($uri, array(
+        return $this->getClient()->put($uri, [
             'json' => $this->createBody($data)
-        ));
+        ]);
     }
 
     /**
@@ -123,6 +127,7 @@ abstract class AbstractClient
      */
     protected function createBody(array $data = null)
     {
-        return $data ?: array();
+        return $data ?: [];
     }
+
 }
